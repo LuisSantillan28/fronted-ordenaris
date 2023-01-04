@@ -8,18 +8,16 @@ import { MenuModule } from './menu/menu.module';
 import { NgModule } from '@angular/core';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     //MatSlideToggleModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MenuModule
+    MenuModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
