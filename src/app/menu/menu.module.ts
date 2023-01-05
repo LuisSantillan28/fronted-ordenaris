@@ -1,12 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-
-//Componentes
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MenuComponent } from './menu/menu.component';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -14,14 +12,13 @@ import { MenuComponent } from './menu/menu.component';
   ],
   imports: [
     CommonModule,
-    RouterModule,
-    MatButtonModule,
-    MatIconModule,
     MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    RouterModule
   ],
-
-  exports:[
+  exports: [
     MenuComponent
   ]
 })
-export class MenuModule {}
+export class MenuModule { }
