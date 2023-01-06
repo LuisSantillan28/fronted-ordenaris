@@ -103,6 +103,7 @@ export class PaginatorComponent {
   }
 
   actualizarEstatus(uuid: string, estatus: number) {
+    console.log(uuid, estatus)
     this.charge = true;
     this.areaSrv.actualizarEstatus(uuid, estatus).subscribe(
       (resp: any) => {

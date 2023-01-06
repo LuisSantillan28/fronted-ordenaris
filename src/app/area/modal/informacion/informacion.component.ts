@@ -10,7 +10,7 @@ import { AreaService } from 'src/app/services/http/area.service';
 })
 export class InformacionComponent implements OnInit {
   charge = true;
-  areaInformation: any;
+  areaInformacion: any;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -36,7 +36,7 @@ export class InformacionComponent implements OnInit {
             return;
           }
 
-          this.areaInformation = resp.information;
+          this.areaInformacion = resp.informacion;
         }, 500);
       },
       () => {

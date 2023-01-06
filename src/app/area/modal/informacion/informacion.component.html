@@ -2,21 +2,22 @@
 
 <div class="p-6">
     <h1 mat-dialog-title *ngIf="charge">Cargando...</h1>
-    <h2 mat-dialog-title *ngIf="charge!">{{areaInformation.nombre}}</h2>
-<div mat-dialog-content *ngIf="charge!">
-    <mat-list role="list">
+     
+    <h2 mat-dialog-title *ngIf="!charge">{{areaInformacion.nombre}}</h2>
+<div mat-dialog-content *ngIf="!charge">
+   <mat-list role="list">
         <div mat-subheader> Empleados laborando </div>
-        <mat-list-item *ngFor="let empleado of areaInformation.empleados">
+        <mat-list-item *ngFor="let empleado of areaInformacion.empleados">
             <div mat-line>{{empleado.nombre}}</div>
             <div mat-line>{{empleado.noEmpleado}}</div>
         </mat-list-item>
 
-        <mat-list-item *ngIf="areaInformation.empleados.length == 0">
+        <mat-list-item *ngIf="areaInformacion.empleados.length == 0">
             <div mat-line> Aún no hay empleados </div>
         </mat-list-item>
       </mat-list>
-      
-</div>
+    
+ </div>
 
 <div mat-dialog-actions align="end">
     <button mat-button mat-dialog-close cdkFocusInitial type="button"> Salir </button>

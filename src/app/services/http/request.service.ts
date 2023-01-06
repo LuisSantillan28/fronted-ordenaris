@@ -35,9 +35,11 @@ export class RequestService {
   }
 
   patch(path: string, data: any, objHeaders: any = null): Observable<any> {
+    // console.log(path, data)
+    console.log(`${environment.http.server}${path}${data}`)
     let headers = new HttpHeaders(objHeaders);
     return this.http.patch(`${environment.http.server}${path}${data}`, {
-      headers,
+      headers
     });
   }
 }

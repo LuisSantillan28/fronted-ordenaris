@@ -11,8 +11,8 @@ export const environment = {
       lista: "/ordenaris/api/area/lista",
       registro: "/ordenaris/api/area/registrar",
       modificar: "/ordenaris/api/area/#uuid#/modificar",
-      actualizarEstatus: "ordenaris/api/#uuid#/actualizar-estatus",
-      informacion: "ordenaris/api/area/#uuid#/informacion" 
+      actualizarEstatus: "/ordenaris/api/area/#uuid#/actualizar-estatus",
+      informacion: "/ordenaris/api/area/#uuid#/informacion" 
     },
 
     empleado:{
