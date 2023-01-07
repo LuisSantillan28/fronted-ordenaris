@@ -52,7 +52,7 @@ export class GestionComponent implements OnInit {
           this.charge = false;
           if (!resp.success) {
             this.snackBar.open(
-              'No se puede acceder al servicio, reintente',
+              'No pudo ser registrado el usuario',
               'Cerrar',
               {
                 horizontalPosition: 'end',
@@ -76,7 +76,7 @@ export class GestionComponent implements OnInit {
       },
       () => {
         this.snackBar.open(
-          'Servicio no disponible, intente de nuevo',
+          'Servicio no disponible, intente de nuevo dd',
           'Cerrar',
           {
             horizontalPosition: 'end',

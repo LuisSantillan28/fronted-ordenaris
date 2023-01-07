@@ -11,30 +11,36 @@ import { EmpleadoService } from 'src/app/services/http/empleado.service';
   selector: 'app-registro',
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.css'],
-  providers: [
-    DatePipe
-  ]
+  providers: [DatePipe],
 })
 export class RegistroComponent {
-  uuid: string | null
+  uuid: string | null;
   charge = false;
-  listaAreas : any[] = []
+  listaAreas: any[] = [];
   form = this.fb.group({
-    uuid           : [ '' ],
-    nombre         : [ '', [ Validators.required, Validators.minLength(3) ] ],
-    paterno        : [ '', [ Validators.required, Validators.minLength(3) ] ],
-    materno        : [ '', [ Validators.minLength(3) ] ],
-    fechaNacimiento: [ '', [ Validators.required ] ],
-    sexo           : [ '', [ Validators.required ] ],
-    areas          : [ '', [ Validators.required ] ],
-    telefono       : [ '', [ Validators.required, Validators.pattern(/^\d{10}?$/) ] ],
-    correo         : [ '', [ Validators.required, Validators.pattern(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) ] ],
-    calle   : [ '', [ Validators.required, Validators.minLength(3) ] ],
-    exterior: [ '', [ Validators.required ] ],
-    interior: [ '' ],
-    cp      : [ '', [ Validators.required, Validators.pattern(/^[0-9]{5}$/) ] ],
-    colonia : [ '', [ Validators.required, Validators.minLength(3) ] ]
-  })
+    uuid: [''],
+    nombre: ['', [Validators.required, Validators.minLength(3)]],
+    paterno: ['', [Validators.required, Validators.minLength(3)]],
+    materno: ['', [Validators.minLength(3)]],
+    fechaNacimiento: ['', [Validators.required]],
+    sexo: ['', [Validators.required]],
+    areas: ['', [Validators.required]],
+    telefono: ['', [Validators.required, Validators.pattern(/^\d{10}?$/)]],
+    correo: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern(
+          /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        ),
+      ],
+    ],
+    calle: ['', [Validators.required, Validators.minLength(3)]],
+    exterior: ['', [Validators.required]],
+    interior: [''],
+    cp: ['', [Validators.required, Validators.pattern(/^[0-9]{5}$/)]],
+    colonia: ['', [Validators.required, Validators.minLength(3)]],
+  });
   constructor(
     private fb: FormBuilder,
     private areasSrv: AreaService,
@@ -46,103 +52,147 @@ export class RegistroComponent {
   ) {
     this.uuid = this.activatedRouter.snapshot.paramMap.get('uuid');
 
-    this.areasSrv.lista().subscribe( (resp:any) => {
-      if( !resp.success ) {
-        return;
+    this.areasSrv.lista().subscribe(
+      (resp: any) => {
+        if (!resp.success) {
+          return;
+        }
+        this.listaAreas = resp.lista;
+      },
+      () => {
+        this.snackBar.open(
+          'No pudo completarse la tarea, reintentar',
+          'Cerrar',
+          {
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+            duration: 5000,
+          }
+        );
       }
-      this.listaAreas = resp.lista;
-    }, () => {
-      this.snackBar.open( "Ocurrió un problema en el servicio, inténtelo más tarde.", "Cerrar", {
-        horizontalPosition: 'end',
-        verticalPosition: 'top',
-        duration: 5000
-      } )
-    } )
+    );
 
-    if( this.uuid ) {
+    if (this.uuid) {
       this.charge = true;
-      this.empleadoSrv.informacion( this.uuid ).subscribe( (resp:any) => {
-        setTimeout(() => {
+      this.empleadoSrv.informacion(this.uuid).subscribe(
+        (resp: any) => {
+          setTimeout(() => {
+            this.charge = false;
+            this.form.patchValue({
+              uuid: resp.informacion.uuid,
+              nombre: resp.informacion.nombre,
+              paterno: resp.informacion.paterno,
+              materno: resp.informacion.materno,
+              sexo: resp.informacion.sexo.toString(),
+              correo: resp.informacion.correo,
+              telefono: resp.informacion.telefono,
+              fechaNacimiento: resp.informacion.fechaNacimiento,
+              areas: resp.informacion.areas.map((el: any) => {
+                return el.uuid;
+              }),
+              calle: resp.informacion.calle,
+              exterior: resp.informacion.exterior,
+              interior: resp.informacion.interior,
+              cp: resp.informacion.cp,
+              colonia: resp.informacion.colonia,
+            });
+          }, 100);
+        },
+        () => {
           this.charge = false;
-          this.form.patchValue({
-            uuid: resp.informacion.uuid,
-            nombre: resp.informacion.nombre,
-            paterno: resp.informacion.paterno,
-            materno: resp.informacion.materno,
-            sexo: resp.informacion.sexo.toString(),
-            correo: resp.informacion.correo,
-            telefono: resp.informacion.telefono,
-            fechaNacimiento: resp.informacion.fechaNacimiento,
-            areas: resp.informacion.areas.map( (el:any) => {
-              return el.uuid
-            } ),
-            calle: resp.informacion.calle,
-            exterior: resp.informacion.exterior,
-            interior: resp.informacion.interior,
-            cp: resp.informacion.cp,
-            colonia: resp.informacion.colonia
-          })
-
-        }, 100);
-      }, () => {
-        this.charge = false;
-        this.snackBar.open( "Ocurrió un problema en el servicio, inténtelo más tarde.", "Cerrar", {
-          horizontalPosition: 'end',
-          verticalPosition: 'top',
-          duration: 5000
-        } )
-        this.router.navigateByUrl('/empleado/lista')
-      } )
+          this.snackBar.open(
+            'No pudieron enviar los datos, reintente',
+            'Cerrar',
+            {
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+              duration: 5000,
+            }
+          );
+          this.router.navigateByUrl('/empleado/lista');
+        }
+      );
     }
   }
 
   registro() {
-    if( this.form.invalid ) return;
+    if (this.form.invalid) return;
     this.charge = true;
-    const data = this.form.value
+    const data = this.form.value;
 
-    let solicitud = this.empleadoSrv.registrar( 
-      data.nombre as any, data.paterno as any, data.materno as any, 
-      data.sexo as any, this.datePipe.transform( data.fechaNacimiento, 'MM/dd/yyyy' )! as any, 
-      data.calle as any, data.exterior as any, data.interior as any, data.cp as any, data.colonia as any, 
-      data.telefono as any, data.correo as any, data.areas as any
-    )
-    if( this.uuid ) {
-      solicitud = this.empleadoSrv.modificar( 
+    let solicitud = this.empleadoSrv.registrar(
+      data.nombre as any,
+      data.paterno as any,
+      data.materno as any,
+      data.sexo as any,
+      this.datePipe.transform(data.fechaNacimiento, 'MM/dd/yyyy')! as any,
+      data.calle as any,
+      data.exterior as any,
+      data.interior as any as any,
+      data.cp as any,
+      data.colonia as any,
+      data.telefono as any,
+      data.correo as any,
+      data.areas as any
+    );
+    if (this.uuid) {
+      solicitud = this.empleadoSrv.modificar(
         this.uuid,
-        data.nombre as any, data.paterno as any, data.materno as any, 
-        data.sexo as any, this.datePipe.transform( data.fechaNacimiento, 'MM/dd/yyyy' )! as any, 
-        data.calle as any, data.exterior as any, data.interior as any, data.cp as any, data.colonia as any, 
-        data.telefono as any, data.correo as any, data.areas as any
-      )
+        data.nombre as any,
+        data.paterno as any,
+        data.materno as any,
+        data.sexo as any,
+        this.datePipe.transform(data.fechaNacimiento, 'MM/dd/yyyy')! as any,
+        data.calle as any,
+        data.exterior as any,
+        data.interior as any as any,
+        data.cp as any,
+        data.colonia as any,
+        data.telefono as any,
+        data.correo as any,
+        data.areas as any
+      );
     }
 
-    solicitud.subscribe( (resp:any) => {
-      setTimeout(() => {
-        this.charge = false
-        if( !resp.success ) {
-          this.snackBar.open( "Ocurrió un problema en el servicio, inténtelo más tarde.", "Cerrar", {
+    solicitud.subscribe(
+      (resp: any) => {
+        setTimeout(() => {
+          this.charge = false;
+          if (!resp.success) {
+            this.snackBar.open(
+              'No se pudo registrar al usuario, reintentar.',
+              'Cerrar',
+              {
+                horizontalPosition: 'end',
+                verticalPosition: 'top',
+                duration: 5000,
+              }
+            );
+            return;
+          }
+          const titulo = this.uuid
+            ? 'Empleado actualizado'
+            : 'Empleado registrado';
+          this.snackBar.open(titulo, 'Cerrar', {
             horizontalPosition: 'end',
             verticalPosition: 'top',
-            duration: 5000
-          } )
-          return
-        }
-        const titulo = this.uuid ? 'Empleado actualizado' : 'Empleado registrado'
-        this.snackBar.open( titulo, "Cerrar", {
-          horizontalPosition: 'end',
-          verticalPosition: 'top',
-          duration: 5000
-        } )
-        this.router.navigateByUrl('/empleado/lista')
-      }, 500);
-    }, () => {
-      this.charge = false
-      this.snackBar.open( "Ocurrió un problema en el servicio, inténtelo más tarde. :C", "Cerrar", {
-        horizontalPosition: 'end',
-        verticalPosition: 'top',
-        duration: 5000
-      } )
-    } )
+            duration: 5000,
+          });
+          this.router.navigateByUrl('/empleado/lista');
+        }, 500);
+      },
+      () => {
+        this.charge = false;
+        this.snackBar.open(
+          'Falló el servicio',
+          'Cerrar',
+          {
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+            duration: 5000,
+          }
+        );
+      }
+    );
   }
 }

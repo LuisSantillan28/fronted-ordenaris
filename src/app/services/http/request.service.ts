@@ -10,6 +10,8 @@ export class RequestService {
   constructor(private http: HttpClient) {}
 
   post(path: string, data: any, objHeaders: any = null): Observable<any> {
+    console.log(`${environment.http.server}${path}`)
+    console.log(data)
     let headers = new HttpHeaders(objHeaders);
     return this.http.post(`${environment.http.server}${path}`, data, {
       headers,
@@ -21,6 +23,7 @@ export class RequestService {
     query: string = '',
     objHeaders: any = null
   ): Observable<any> {
+    console.log(`${environment.http.server}${path}${query}`);
     let headers = new HttpHeaders(objHeaders);
     return this.http.get(`${environment.http.server}${path}${query}`, {
       headers,
@@ -28,6 +31,7 @@ export class RequestService {
   }
 
   put(path: string, data: any, objHeaders: any = null): Observable<any> {
+    console.log(`${environment.http.server}${path}`)
     let headers = new HttpHeaders(objHeaders);
     return this.http.put(`${environment.http.server}${path}`, data, {
       headers,

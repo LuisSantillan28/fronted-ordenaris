@@ -3,11 +3,13 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AreaService } from 'src/app/services/http/area.service';
+
 @Component({
   selector: 'app-informacion',
   templateUrl: './informacion.component.html',
   styleUrls: ['./informacion.component.css'],
 })
+
 export class InformacionComponent implements OnInit {
   charge = true;
   areaInformacion: any;
