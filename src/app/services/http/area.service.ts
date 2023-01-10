@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RequestService } from './request.service';
-//Ordena los datos 
+//Ordena los datos
 import { SortDirection } from '@angular/material/sort';
 import { environment } from 'src/environments/environment';
 
@@ -17,7 +17,7 @@ export class AreaService {
     sort: string,
     order: SortDirection,
     page: number,
-    search: string = ""
+    search: string = ''
   ): Observable<any> {
     //Se define para acumular páginas
     page++;
@@ -48,12 +48,17 @@ export class AreaService {
     );
   }
 
-  actualizarEstatus(uuid: string, estatus: number): Observable<any>{
-    console.log(uuid, estatus)
-    return this.req.patch(environment.http.area.actualizarEstatus.replace("#uuid#", uuid), `?estatus=${estatus}`)
+  actualizarEstatus(uuid: string, estatus: number): Observable<any> {
+    console.log(uuid, estatus);
+    return this.req.patch(
+      environment.http.area.actualizarEstatus.replace('#uuid#', uuid),
+      `?estatus=${estatus}`
+    );
   }
 
-  informacion(uuid: string): Observable<any>{
-    return this.req.get(environment.http.area.informacion.replace("#uuid#", uuid))
+  informacion(uuid: string): Observable<any> {
+    return this.req.get(
+      environment.http.area.informacion.replace('#uuid#', uuid)
+    );
   }
 }

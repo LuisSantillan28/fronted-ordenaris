@@ -17,7 +17,7 @@ export const environment = {
 
     empleado:{
       paginar: "/ordenaris/api/empleado/paginar",
-      registro: "/ordenaris/api/empleado/registar",
+      registro: "/ordenaris/api/empleado/registrar",
       modificar: "/ordenaris/api/empleado/#uuid#/modificar",
       actualizarEstatus:"/ordenaris/api/empleado/#uuid#/actualizar-estatus",
       informacion: "/ordenaris/api/empleado/#uuid#/informacion"

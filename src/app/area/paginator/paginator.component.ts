@@ -23,7 +23,7 @@ export class PaginatorComponent {
     total: 0,
     encabezados: ['nombre', 'empleados', 'estatus', 'accion'],
     buscar: '',
-    max: 10,
+    max: 5
   };
 
   buscar = new EventEmitter<string>();
@@ -41,7 +41,7 @@ export class PaginatorComponent {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
     this.buscar.subscribe(() => (this.paginator.pageIndex = 0));
 
-    merge(this.sort.sortChange, this.paginator.page, this.paginador.buscar)
+    merge(this.sort.sortChange, this.paginator.page, this.buscar)
       .pipe(
         startWith({}),
         switchMap(() => {

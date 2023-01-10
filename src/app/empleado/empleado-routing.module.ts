@@ -14,7 +14,7 @@ const routes: Routes = [
     path: 'registro',
     component: RegistroComponent
   },{
-    path: 'uuid/actualizar',
+    path: ':uuid/actualizar',
     component: RegistroComponent
   },{
     path: '**', redirectTo: 'lista'

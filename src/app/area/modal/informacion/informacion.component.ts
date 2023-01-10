@@ -51,7 +51,7 @@ export class InformacionComponent implements OnInit {
             duration: 5000,
           }
         );
-        this.charge = true;
+        this.charge = false;
       }
     );
   }

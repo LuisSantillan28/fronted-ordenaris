@@ -1,8 +1,10 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 
+
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
+
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AreaService } from 'src/app/services/http/area.service';
 import { EmpleadoService } from 'src/app/services/http/empleado.service';
@@ -16,6 +18,7 @@ import { EmpleadoService } from 'src/app/services/http/empleado.service';
 export class RegistroComponent {
   uuid: string | null;
   charge = false;
+  usrEdad: Date | null | undefined;
   listaAreas: any[] = [];
   form = this.fb.group({
     uuid: [''],
@@ -41,6 +44,8 @@ export class RegistroComponent {
     cp: ['', [Validators.required, Validators.pattern(/^[0-9]{5}$/)]],
     colonia: ['', [Validators.required, Validators.minLength(3)]],
   });
+  mostrar: number | any;
+
   constructor(
     private fb: FormBuilder,
     private areasSrv: AreaService,
@@ -61,7 +66,7 @@ export class RegistroComponent {
       },
       () => {
         this.snackBar.open(
-          'No pudo completarse la tarea, reintentar',
+          'Ocurrió un problema en el servicio, inténtelo más tarde.',
           'Cerrar',
           {
             horizontalPosition: 'end',
@@ -101,7 +106,7 @@ export class RegistroComponent {
         () => {
           this.charge = false;
           this.snackBar.open(
-            'No pudieron enviar los datos, reintente',
+            'Ocurrió un problema en el servicio, inténtelo más tarde.',
             'Cerrar',
             {
               horizontalPosition: 'end',
@@ -114,6 +119,39 @@ export class RegistroComponent {
       );
     }
   }
+  //Prueba
+  public getInputValue(inputValue:string){
+    console.log( "'" + inputValue + "'");
+
+    let usrValue = new Date(inputValue)
+    let fecha = new Date( )
+    let act = `${fecha.getDate()}/${('0'+(fecha.getMonth()+1)).slice(-2)}/${fecha.getFullYear()}`;
+    console.log(act);
+
+
+    
+
+  }
+  
+  //Función para la edad
+  public edad(usrEdad: string){
+    let fecha = new Date( )
+    const inpVal = new Date(this.usrEdad as any);
+    // this.datePipe.transform(inpVal, 'MM\dd\yyyy')
+
+    let ustDate = `${inpVal.getDate()}`
+
+    // const edad = Math.floor((actual - inpVal.getTime()));
+
+    // this.mostrar = Math.floor((edad / (1000 * 3600 * 24 ))/365)
+    // console.log(edad)
+    console.log(inpVal) //Invalid date
+    console.log(Date.now()) //Números
+    return this.edad;
+
+    // console.log(this.mostrar);
+  }
+
 
   registro() {
     if (this.form.invalid) return;
@@ -125,33 +163,35 @@ export class RegistroComponent {
       data.paterno as any,
       data.materno as any,
       data.sexo as any,
-      this.datePipe.transform(data.fechaNacimiento, 'MM/dd/yyyy')! as any,
+      this.datePipe.transform(data.fechaNacimiento, 'MM/dd/yyyy')!,
       data.calle as any,
       data.exterior as any,
-      data.interior as any as any,
+      data.interior as any,
       data.cp as any,
       data.colonia as any,
       data.telefono as any,
       data.correo as any,
       data.areas as any
-    );
-    if (this.uuid) {
+
+      );      
+      if (this.uuid) {
       solicitud = this.empleadoSrv.modificar(
         this.uuid,
         data.nombre as any,
         data.paterno as any,
         data.materno as any,
         data.sexo as any,
-        this.datePipe.transform(data.fechaNacimiento, 'MM/dd/yyyy')! as any,
+        this.datePipe.transform(data.fechaNacimiento, 'MM/dd/yyyy')!,
         data.calle as any,
         data.exterior as any,
-        data.interior as any as any,
+        data.interior as any,
         data.cp as any,
         data.colonia as any,
         data.telefono as any,
         data.correo as any,
         data.areas as any
       );
+      console.log(this.uuid);
     }
 
     solicitud.subscribe(
@@ -160,7 +200,7 @@ export class RegistroComponent {
           this.charge = false;
           if (!resp.success) {
             this.snackBar.open(
-              'No se pudo registrar al usuario, reintentar.',
+              'Ocurrió un problema en el servicio, inténtelo más tarde.',
               'Cerrar',
               {
                 horizontalPosition: 'end',
@@ -184,7 +224,7 @@ export class RegistroComponent {
       () => {
         this.charge = false;
         this.snackBar.open(
-          'Falló el servicio',
+          'Ocurrió un problema en el servicio, inténtelo más tarde.',
           'Cerrar',
           {
             horizontalPosition: 'end',
@@ -195,4 +235,9 @@ export class RegistroComponent {
       }
     );
   }
+  
+  imprimir(){
+    console.log(this.form)
+  }
+
 }

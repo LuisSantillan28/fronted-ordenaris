@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { catchError, map, merge, of as observableOf, startWith, switchMap } from 'rxjs';
 
-
 import { GestionComponent } from '../../area/modal/gestion/gestion.component';
 import { IPaginador } from '../../_helpers/IPaginador';
 import { InformacionComponent } from '../modal/informacion/informacion.component';
@@ -23,7 +22,7 @@ export class PaginadorComponent {
     total: 0,
     encabezados: [ 'noEmpleado', 'nombre', 'direccion', 'edad', 'areas', 'fechaIngreso', 'estatus', 'accion' ],
     buscar: "",
-    max: 10
+    max: 5
   }
 
   buscar = new EventEmitter<string>();
