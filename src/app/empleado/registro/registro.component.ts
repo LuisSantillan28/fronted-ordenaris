@@ -44,6 +44,7 @@ export class RegistroComponent {
     cp: ['', [Validators.required, Validators.pattern(/^[0-9]{5}$/)]],
     colonia: ['', [Validators.required, Validators.minLength(3)]],
   });
+
   mostrar: number | any;
 
   constructor(
@@ -120,37 +121,17 @@ export class RegistroComponent {
     }
   }
   //Prueba
-  public getInputValue(inputValue:string){
+  public getInputValue(inputValue:any){
     console.log( "'" + inputValue + "'");
 
     let usrValue = new Date(inputValue)
     let fecha = new Date( )
     let act = `${fecha.getDate()}/${('0'+(fecha.getMonth()+1)).slice(-2)}/${fecha.getFullYear()}`;
     console.log(act);
-
-
-    
-
+    console.log(usrValue)
   }
   
-  //Función para la edad
-  public edad(usrEdad: string){
-    let fecha = new Date( )
-    const inpVal = new Date(this.usrEdad as any);
-    // this.datePipe.transform(inpVal, 'MM\dd\yyyy')
 
-    let ustDate = `${inpVal.getDate()}`
-
-    // const edad = Math.floor((actual - inpVal.getTime()));
-
-    // this.mostrar = Math.floor((edad / (1000 * 3600 * 24 ))/365)
-    // console.log(edad)
-    console.log(inpVal) //Invalid date
-    console.log(Date.now()) //Números
-    return this.edad;
-
-    // console.log(this.mostrar);
-  }
 
 
   registro() {
@@ -236,6 +217,23 @@ export class RegistroComponent {
     );
   }
   
+    //Función para la edad
+    public edad(usrEdad: any){
+
+      const fec= new Date(usrEdad)
+      const act= Date.now()
+      const nac =fec.getTime()
+      const diferencia= Math.abs(act-nac);
+  
+      this.mostrar = Math.floor((diferencia / (1000 * 3600 * 24))/(365.25));
+      // const noMostrar = Math.abs((diferencia / (1000 * 3600 * 24))/(365.25));
+      console.log(nac)
+      console.log(this.mostrar)
+      // console.log(noMostrar)
+  
+      return this.mostrar
+    }
+
   imprimir(){
     console.log(this.form)
   }

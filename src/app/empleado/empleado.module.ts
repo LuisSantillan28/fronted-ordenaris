@@ -26,6 +26,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
+import {MatCardModule} from '@angular/material/card';
 
 registerLocaleData(localeMx, 'es-MX')
 
@@ -56,7 +57,8 @@ registerLocaleData(localeMx, 'es-MX')
     MatDialogModule,
     MatDividerModule,
     MatSelectModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatCardModule
   ],
   providers:[
     {provide: MAT_DATE_LOCALE, useValue: "es-ES"}
